@@ -25,7 +25,6 @@ def load_data():
                 .replace("uk", "united kingdom")
                 .replace(" ", "")
                )
-
     rnd["c"] = rnd["Country"].apply(clean)
     gdp["c"] = gdp["Country"].apply(clean)
     eco["c"] = eco["Country"].apply(clean)
@@ -47,8 +46,49 @@ def load_data():
 # 2️⃣ Streamlit Page Setup
 # ======================
 st.set_page_config(page_title="STEM Investment & Economic Indicators", layout="wide")
-
 st.title("📊 STEM Investment and Economic Indicators")
+
+# ======================
+# 🔗 External Collaboration Links
+# ======================
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown(
+        """
+        <a href="https://miro.com/app/board/uXjVJE9hEY8=/" target="_blank">
+            <button style="
+                background-color:#2b78e4;
+                color:white;
+                border:none;
+                padding:10px 20px;
+                border-radius:8px;
+                cursor:pointer;
+                font-size:16px;
+            ">🧭 Open Miro Board</button>
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+
+with col2:
+    st.markdown(
+        """
+        <a href="https://app.slack.com/client/E08CDCZSUDT?_gl=1*1hjre2c*_gcl_au*Nzc0OTMxODMwLjE3NDExNDAzNDEuMTA5ODUwNTA0My4xNzQyOTU0MDE3LjE3NDI5NTQwMTc." target="_blank">
+            <button style="
+                background-color:#4a154b;
+                color:white;
+                border:none;
+                padding:10px 20px;
+                border-radius:8px;
+                cursor:pointer;
+                font-size:16px;
+            ">💬 Open Slack Canvas</button>
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+
 # ======================
 # 🎬 Hook Section
 # ======================
@@ -137,6 +177,37 @@ GDP, interest rate, inflation, or stock index.
 # 5️⃣ Map A: Statistical Significance-based Storytelling
 # ======================
 st.header("📈 Step 2: Map A — Statistical Significance-based Analysis")
+
+st.subheader("🔄 System Dynamics — Map A Feedback Structure")
+
+st.image(
+    "System_Dynamics_Diagram1.png",
+    caption="System Dynamics Diagram 1: STEM Investment and Economic Stability",
+    use_column_width=True
+)
+
+st.markdown("""
+### 🧩 System Map Explanation
+
+This system map shows how **STEM investment affects economic growth** through four feedback loops — two reinforcing (R1, R2) and two balancing (B1, B2).
+
+#### 🔁 R1 — *Innovation Growth Loop*
+More STEM investment leads to greater innovation and productivity, which increases GDP and encourages further investment.  
+This creates a **positive, self-reinforcing cycle of growth.**
+
+#### 🔁 R2 — *Productivity–Interest Loop*
+Higher productivity lowers interest rates, making it easier to invest more in STEM and boost GDP.  
+This loop **strengthens continuous growth.**
+
+#### ⚖️ B1 — *Economic Balancing Loop*
+As GDP grows too fast, interest rates rise to control inflation.  
+Higher rates slow down investment, keeping the economy **stable**.
+
+#### ⚖️ B2 — *Innovation–Interest Balancing Loop*
+When innovation drives rapid growth, higher interest rates help prevent overheating and maintain **sustainable development**.
+
+Overall, the system map explains how **STEM investment can both accelerate and stabilize economic growth** through these interacting loops.
+""")
 
 st.markdown("""
 **Map A** visualizes and tests the statistical relationship between STEM investment  
@@ -283,6 +354,37 @@ market confidence, and price stability**.
 # ======================
 st.header("🧠 Step 3: Map B — Theory / Scenario-based Interpretation")
 
+st.subheader("🧠 System Dynamics — Map B Scenario Interpretation")
+
+st.image(
+    "System_Dynamics_Diagram2.png",
+    caption="System Dynamics Diagram 2: Long-term Scenario and Feedback Loops",
+    use_column_width=True
+)
+st.markdown("""
+### 🧩 System Map Explanation
+
+This system map shows how **STEM investment contributes to long-term economic growth** through three feedback loops — two reinforcing (R1, R2) and one balancing (B1).  
+It also notes non-significant variables such as **education level**, **institutional stability**, and **population structure**, which provide background support but have limited direct impact in this model.
+
+#### 🔁 R1 — *Innovation Growth Loop*
+More STEM investment promotes innovation diffusion and productivity, leading to GDP growth.  
+A stronger economy allows for further STEM investment, creating a **positive feedback cycle of innovation and expansion.**
+
+#### 🔁 R2 — *Productivity–Inflation–Interest Loop*
+Higher productivity reduces inflation, which lowers interest rates and encourages more investment.  
+Increased investment raises productivity again, forming another **reinforcing loop that sustains growth** through stable prices and easier capital access.
+
+#### ⚖️ B1 — *Economic Balancing Loop*
+As GDP grows too quickly, inflation and interest rates rise.  
+Higher interest rates slow down STEM investment, **preventing overheating and maintaining economic balance.**
+
+---
+
+Overall, this system map illustrates how **sustained STEM investment**, supported by a **stable education system and institutions**,  
+drives **innovation-led growth** while keeping the economy stable through balancing feedbacks.
+""")
+
 # ======================
 # 💡 Map B: Conclusion & Reflection Section
 # ======================
@@ -370,12 +472,45 @@ Implications:
 - Sustained STEM investment builds a feedback loop of innovation, growth, and trust.
 """.strip()
 
-st.download_button(
-    label="📥 Download Executive Summary (TXT)",
-    data=summary_text.encode('utf-8'),
-    file_name="Executive_Summary.txt",
-    mime="text/plain"
-)
+import os
+import base64
+import streamlit as st
+
+# 📄 Executive Summary Section
+st.header("📑 Executive Summary")
+
+# 현재 파일(app.py) 기준으로 경로 계산
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+pdf_path = os.path.join(BASE_DIR, "Executive summary.pdf")
+
+# 파일이 존재하는지 확인
+if os.path.exists(pdf_path):
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
+
+    # PDF를 base64로 인코딩하여 웹에 표시
+    b64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
+
+    # Streamlit HTML iframe으로 PDF 미리보기
+    st.markdown(
+        f"""
+        <iframe src="data:application/pdf;base64,{b64_pdf}"
+                width="100%" height="700"
+                style="border: 1px solid #ddd; border-radius: 10px;">
+        </iframe>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    # 다운로드 버튼
+    st.download_button(
+        label="📥 Download Executive Summary (PDF)",
+        data=pdf_bytes,
+        file_name="Executive_summary.pdf",
+        mime="application/pdf"
+    )
+else:
+    st.warning("⚠️ 'Executive summary.pdf' 파일이 프로젝트 폴더에 없습니다.")
 
 st.markdown("---")
 st.caption("© 2025 Data Story Project | Storytelling by Kim Hyung-soon")
