@@ -497,21 +497,6 @@ import streamlit as st
 # ==============================
 # 📄 Executive Summary Section
 # ==============================
-import urllib.parse
-
-pdf_url = f"file://{pdf_path}"
-encoded_url = urllib.parse.quote(pdf_url, safe="")
-
-components.html(
-    f"""
-    <iframe src="https://docs.google.com/gview?url={encoded_url}&embedded=true" 
-            width="100%" height="700"
-            style="border:1px solid #ddd; border-radius:10px;">
-    </iframe>
-    """,
-    height=750,
-)
-
 import streamlit as st
 import os
 import tempfile
