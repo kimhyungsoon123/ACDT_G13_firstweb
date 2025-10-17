@@ -499,9 +499,8 @@ import streamlit as st
 # ==============================
 import streamlit as st
 import os
-import tempfile
 import base64
-import streamlit.components.v1 as components
+import tempfile
 
 st.header("📑 Executive Summary")
 
@@ -510,40 +509,36 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 pdf_path = os.path.join(BASE_DIR, "data", "Executive summary.pdf")
 
 if os.path.exists(pdf_path):
-    # ✅ 임시 파일로 복사
-    with open(pdf_path, "rb") as src:
-        pdf_data = src.read()
-        temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
-        temp_pdf.write(pdf_data)
-        temp_pdf.close()
+    with open(pdf_path, "rb") as f:
+        pdf_bytes = f.read()
 
-    # ✅ 1️⃣ Chrome에서도 작동하는 iframe 방식
-    components.html(
-        f"""
-        <iframe src="file://{temp_pdf.name}" 
-                width="100%" height="700"
-                style="border: 1px solid #ddd; border-radius: 10px;">
-        </iframe>
-        """,
-        height=750,
-    )
+    # ✅ 임시 파일 생성 (로컬용)
+    temp_pdf = tempfile.NamedTemporaryFile(delete=False, suffix=".pdf")
+    temp_pdf.write(pdf_bytes)
+    temp_pdf.close()
 
-    # ✅ 2️⃣ 브라우저 새 탭 열기 링크
-    b64_pdf = base64.b64encode(pdf_data).decode("utf-8")
+    # ✅ 1️⃣ 브라우저 새 탭에서 열기 버튼
     st.markdown(
-        f"[📖 View in Browser](data:application/pdf;base64,{b64_pdf})",
+        f"""
+        <a href="file://{temp_pdf.name}" target="_blank" 
+           style="text-decoration:none;">
+           📖 <b>Open Executive Summary in Browser</b>
+        </a>
+        """,
         unsafe_allow_html=True
     )
 
-    # ✅ 3️⃣ 다운로드 버튼
+    # ✅ 2️⃣ 다운로드 버튼
     st.download_button(
         label="📥 Download Executive Summary (PDF)",
-        data=pdf_data,
+        data=pdf_bytes,
         file_name="Executive_summary.pdf",
         mime="application/pdf"
     )
+
 else:
     st.warning("⚠️ 'Executive summary.pdf' 파일이 data 폴더에 없습니다.")
+
 
 
 st.markdown("---")
