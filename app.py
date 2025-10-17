@@ -183,7 +183,7 @@ st.header("📈 Step 2: Map A — Statistical Significance-based Analysis")
 st.subheader("🔄 System Dynamics — Map A Feedback Structure")
 
 st.image(
-    "System_Dynamics_Diagram1.png",
+    "data/System_Dynamics_Diagram1.png",
     caption="System Dynamics Diagram 1: STEM Investment and Economic Growth Channels",
     use_column_width=True
 )
@@ -370,7 +370,7 @@ st.header("🧠 Step 3: Map B — Theory / Scenario-based Interpretation")
 st.subheader("🧠 System Dynamics — Map B Scenario Interpretation")
 
 st.image(
-    "System_Dynamics_Diagram2.png",
+    "data/System_Dynamics_Diagram2.png",
     caption="System Dynamics Diagram 2: Long-term Scenario and Reinforcing–Balancing Feedback Loops",
     use_column_width=True
 )
