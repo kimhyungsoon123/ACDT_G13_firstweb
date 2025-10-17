@@ -497,9 +497,8 @@ import streamlit as st
 # 📄 Executive Summary Section
 st.header("📑 Executive Summary")
 
-# 현재 파일(app.py) 기준으로 경로 계산
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-pdf_path = os.path.join(BASE_DIR, "data/Executive summary.pdf")
+pdf_path = os.path.join(BASE_DIR, "data", "Executive summary.pdf")
 
 # 파일이 존재하는지 확인
 if os.path.exists(pdf_path):
@@ -509,7 +508,6 @@ if os.path.exists(pdf_path):
     # PDF를 base64로 인코딩하여 웹에 표시
     b64_pdf = base64.b64encode(pdf_bytes).decode("utf-8")
 
-    # Streamlit HTML iframe으로 PDF 미리보기
     st.markdown(
         f"""
         <iframe src="data:application/pdf;base64,{b64_pdf}"
@@ -520,7 +518,6 @@ if os.path.exists(pdf_path):
         unsafe_allow_html=True,
     )
 
-    # 다운로드 버튼
     st.download_button(
         label="📥 Download Executive Summary (PDF)",
         data=pdf_bytes,
@@ -528,7 +525,7 @@ if os.path.exists(pdf_path):
         mime="application/pdf"
     )
 else:
-    st.warning("⚠️ 'Executive summary.pdf' 파일이 프로젝트 폴더에 없습니다.")
+    st.warning("⚠️ 'Executive summary.pdf' 파일이 data 폴더에 없습니다.")
 
 st.markdown("---")
 st.caption("© 2025 Data Story Project | Storytelling by Kim Hyung-soon")
