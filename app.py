@@ -499,7 +499,7 @@ st.header("📑 Executive Summary")
 
 # 현재 파일(app.py) 기준으로 경로 계산
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-pdf_path = os.path.join(BASE_DIR, "Executive summary.pdf")
+pdf_path = os.path.join(BASE_DIR, "data/Executive summary.pdf")
 
 # 파일이 존재하는지 확인
 if os.path.exists(pdf_path):
