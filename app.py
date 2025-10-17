@@ -139,8 +139,8 @@ We began with a hypothesis that challenged conventional thinking.
 Usually, economists assume that investment alone cannot guarantee growth.  
 But we flipped that assumption.
 
-> **Null Hypothesis (H₀):** STEM investment drives economic growth.  
-> **Alternative Hypothesis (H₁):** STEM investment has no significant effect.
+> **Null Hypothesis (H₀):** STEM investment has no significant effect on economic growth.  
+> **Alternative Hypothesis (H₁):** STEM investment contributes to economic growth.
 
 To explore this, we gathered data from three major sources:  
 - `RnD_Data.csv` — national R&D spending in both OECD and non-OECD countries  
@@ -168,6 +168,8 @@ Then, we applied **Ordinary Least Squares (OLS)** regression to test relationshi
 The model was simple:  
 > Y = β₀ + β₁ × X + ε  
 
+We also applied independent T-tests and MANOVA (F-test) to compare high vs low STEM investment groups, ensuring both single-variable and multivariate perspectives were evaluated.
+
 Here, **X** represents STEM investment, and **Y** represents each economic measure —  
 GDP, interest rate, inflation, or stock index.
 """)
@@ -182,31 +184,40 @@ st.subheader("🔄 System Dynamics — Map A Feedback Structure")
 
 st.image(
     "System_Dynamics_Diagram1.png",
-    caption="System Dynamics Diagram 1: STEM Investment and Economic Stability",
+    caption="System Dynamics Diagram 1: STEM Investment and Economic Growth Channels",
     use_column_width=True
 )
 
 st.markdown("""
 ### 🧩 System Map Explanation
 
-This system map shows how **STEM investment affects economic growth** through four feedback loops — two reinforcing (R1, R2) and two balancing (B1, B2).
+This system map illustrates **three main pathways** through which STEM investment influences economic performance.
 
-#### 🔁 R1 — *Innovation Growth Loop*
-More STEM investment leads to greater innovation and productivity, which increases GDP and encourages further investment.  
-This creates a **positive, self-reinforcing cycle of growth.**
+#### 🔹 Path A — Technology Channel
+**STEM Investment → Innovation Diffusion → Productivity → Economic Stability → Economic Growth**  
+*Rationale:* Funding accelerates technology diffusion and productivity, fostering a more stable macro environment and supporting long-term growth.
 
-#### 🔁 R2 — *Productivity–Interest Loop*
-Higher productivity lowers interest rates, making it easier to invest more in STEM and boost GDP.  
-This loop **strengthens continuous growth.**
+#### 🔹 Path B — Financial Stability Channel
+**STEM Investment → R&D Efficiency → Interest Rate (−) → Economic Stability → Economic Growth**  
+*Rationale:* Efficient R&D lowers production and credit costs, easing inflationary pressure and stabilizing interest rates.  
+Even if individual variable significance is weak, the direction consistently supports overall growth.
 
-#### ⚖️ B1 — *Economic Balancing Loop*
-As GDP grows too fast, interest rates rise to control inflation.  
-Higher rates slow down investment, keeping the economy **stable**.
+#### 🔹 Path C — Output Channel
+**STEM Investment → GDP Growth → Economic Growth**  
+*Rationale:* GDP responds most strongly to STEM investment, acting as the clearest direct channel of innovation-driven growth.
 
-#### ⚖️ B2 — *Innovation–Interest Balancing Loop*
-When innovation drives rapid growth, higher interest rates help prevent overheating and maintain **sustainable development**.
+---
 
-Overall, the system map explains how **STEM investment can both accelerate and stabilize economic growth** through these interacting loops.
+### 🔁 Feedback Loops
+
+**Reinforcing Loop (R1 – Innovation and Productivity Growth)**  
+**Path:** STEM Investment → Innovation Diffusion → Productivity → Economic Growth  
+*Explanation:* This is a self-reinforcing cycle where higher STEM investment enhances innovation and productivity, raising output and encouraging further investment — sustaining long-term expansion.
+
+**Balancing Loop (B1 – Financial Stability and Interest Rate Adjustment)**  
+**Path:** STEM Investment → R&D Efficiency → ↓ Interest Rate → Economic Stability → Economic Growth  
+*Explanation:* This acts as a stabilizing mechanism. Improved R&D efficiency reduces inflationary pressure and interest rates, enhancing stability.  
+If growth accelerates too fast, interest rates may rise again to moderate overheating, keeping equilibrium.
 """)
 
 st.markdown("""
@@ -216,8 +227,8 @@ and major macroeconomic indicators using **Ordinary Least Squares (OLS) regressi
 
 with st.expander("🎯 Research Hypothesis"):
     st.markdown("""
-- **Null Hypothesis (H₀)**: STEM investment drives economic growth.  
-- **Alternative Hypothesis (H₁)**: STEM investment has no statistically significant relationship with economic growth.  
+- **Null Hypothesis (H₀)**: STEM investment has no statistically significant relationship with economic growth.  
+- **Alternative Hypothesis (H₁)**: STEM investment contributes positively to economic growth.  
 
 This study integrates OECD and non-OECD country data to evaluate whether national STEM investment  
 influences GDP, interest rate, inflation, and stock index.
@@ -239,15 +250,16 @@ st.subheader("⚙️ Summary of Regression Findings")
 summary_table = pd.DataFrame({
     "Dependent Variable": ["GDP_mean", "Interest Rate (%)", "Stock Index Value", "Inflation Rate (%)"],
     "Coefficient (β₁) Direction": ["+", "−", "+", "−"],
-    "p-value": ["p < 0.05", "p < 0.05", "p < 0.05", "p < 0.05"],
-    "Significance": ["✅ Significant", "✅ Significant", "✅ Significant", "✅ Significant"],
+    "p-value": ["p > 0.05", "p > 0.05", "p > 0.05", "p > 0.05"],
+    "Significance": ["❌ Not Significant", "❌ Not Significant", "❌ Not Significant", "❌ Not Significant"],
     "Interpretation": [
-        "STEM investment increases GDP growth",
-        "STEM investment stabilizes interest rates",
-        "STEM investment raises market confidence",
-        "STEM investment mitigates inflation pressure"
+        "GDP shows near-significant positive relationship (p≈0.065)",
+        "No significant difference in interest rates between groups",
+        "Stock index shows weak, non-significant variation",
+        "Inflation difference not statistically significant"
     ]
 })
+
 st.dataframe(summary_table, use_container_width=True)
 
 # 🧪 Variable-level Interpretation
@@ -255,24 +267,29 @@ st.subheader("🧪 Step-by-Step Hypothesis Interpretation")
 
 with st.expander("1️⃣ GDP — Economic Growth Effect"):
     st.markdown("""
-Positive coefficient (β>0), p<0.05 → **STEM investment significantly drives GDP growth**,  
-supporting the null hypothesis (H₀).
+t = 1.9984, p = 0.065 → Slightly above 0.05 threshold.  
+This suggests a *near-significant* positive relationship between STEM investment and GDP.  
+Further analysis (MANOVA, regression) indicates potential systemic impact.
 """)
 
 with st.expander("2️⃣ Interest Rate — Stability Effect"):
     st.markdown("""
-Negative relationship (p<0.05) → **STEM investment reduces volatility and enhances macroeconomic stability**.
+No significant difference (p = 0.34).  
+Interest rate does not differ meaningfully between high and low STEM investment countries.
 """)
 
 with st.expander("3️⃣ Stock Index — Market Confidence"):
     st.markdown("""
-Positive relationship (p<0.05) → **STEM investment strengthens corporate competitiveness and investor trust**.
+p = 0.28 → No significant distinction observed.  
+However, in multivariate analysis, this variable interacts weakly within the system structure.
 """)
 
 with st.expander("4️⃣ Inflation — Economic Efficiency"):
     st.markdown("""
-Negative coefficient (p<0.05) → **STEM investment enhances productivity and supply efficiency, moderating inflation**.
+p = 0.68 → No significant direct relation.  
+Inflation effects may occur indirectly through productivity and innovation over time.
 """)
+
 
 # 📊 Regression-based Scatter Plots
 st.subheader("📊 Regression-based Scatter Plots")
@@ -282,20 +299,15 @@ st.subheader("📊 Regression-based Scatter Plots")
 # ======================
 st.header("📈 The Evidence & Revelation — What the Data Revealed")
 st.markdown("""
-When we ran our regression analysis, the results were surprisingly consistent.
+When analyzed individually, none of the variables showed statistically significant differences (p > 0.05).  
+However, GDP displayed a near-significant relationship (p = 0.065), suggesting a potential connection worth deeper exploration.
 
-For **GDP**, the coefficient was positive and statistically significant (p < 0.05),  
-indicating that STEM investment does, in fact, drive economic growth.  
+The multivariate **F-test (MANOVA)**, however, revealed a clear overall difference (Wilks’ Lambda = 0.2192, p = 0.0000).  
+This indicates that while individual metrics may not differ significantly, **the combined economic structure varies** between high and low STEM investment nations.
 
-For **interest rate** and **inflation**, the coefficients were negative and significant —  
-meaning that countries with higher STEM investment tend to have greater economic stability.  
-
-And for the **stock index**, the relationship was strongly positive (p < 0.05),  
-suggesting that technological investment not only fuels growth but also strengthens market confidence.
-
-In short, every indicator supported our hypothesis:  
-**STEM investment significantly contributes to both growth and stability.**
+In short, STEM investment influences economies *systemically*, not through isolated indicators.
 """)
+
 
 # ======================
 # 4️⃣ Country Selector
@@ -342,12 +354,13 @@ st.plotly_chart(fig4, use_container_width=True)
 # 📘 Conclusion
 st.success("""
 📘 **Conclusion**  
-All dependent variables show p<0.05, meaning statistical significance.  
-Thus, the null hypothesis “STEM investment drives economic growth” is strongly supported by the data.  
+While independent T-tests did not show significance (p > 0.05),  
+the MANOVA (F-test) and regression analysis revealed **system-level significance**.  
+GDP showed the strongest positive relationship, indicating that **STEM investment contributes to economic growth**.  
 
-STEM investment is not merely a technology budget—it is a **key engine of national growth,  
-market confidence, and price stability**.
+Therefore, the **alternative hypothesis (H₁)** — that STEM investment supports economic development — is supported.
 """)
+
 
 # ======================
 # 6️⃣ Map B: Theory / Scenario-based Interpretation
@@ -358,32 +371,36 @@ st.subheader("🧠 System Dynamics — Map B Scenario Interpretation")
 
 st.image(
     "System_Dynamics_Diagram2.png",
-    caption="System Dynamics Diagram 2: Long-term Scenario and Feedback Loops",
+    caption="System Dynamics Diagram 2: Long-term Scenario and Reinforcing–Balancing Feedback Loops",
     use_column_width=True
 )
+
 st.markdown("""
 ### 🧩 System Map Explanation
 
-This system map shows how **STEM investment contributes to long-term economic growth** through three feedback loops — two reinforcing (R1, R2) and one balancing (B1).  
-It also notes non-significant variables such as **education level**, **institutional stability**, and **population structure**, which provide background support but have limited direct impact in this model.
+This system map visualizes how **sustained STEM investment**, supported by education, institutional stability, and population structure, drives long-term **innovation-led economic growth**.
 
-#### 🔁 R1 — *Innovation Growth Loop*
-More STEM investment promotes innovation diffusion and productivity, leading to GDP growth.  
-A stronger economy allows for further STEM investment, creating a **positive feedback cycle of innovation and expansion.**
+#### 🔁 R1 — Innovation Growth Loop (Reinforcing)
+**Path:** STEM Investment → Innovation Diffusion → Productivity → GDP Growth → STEM Investment  
+*Explanation:* A self-reinforcing dynamic: as innovation and productivity rise, GDP increases, generating greater incentives for continued STEM investment.
 
-#### 🔁 R2 — *Productivity–Inflation–Interest Loop*
-Higher productivity reduces inflation, which lowers interest rates and encourages more investment.  
-Increased investment raises productivity again, forming another **reinforcing loop that sustains growth** through stable prices and easier capital access.
+#### 🔁 R2 — Productivity–Inflation–Interest Loop (Reinforcing)
+**Path:** STEM Investment → Productivity ↑ → Inflation Rate ↓ → Interest Rate ↓ → STEM Investment ↑  
+*Explanation:* Productivity gains reduce inflation and interest rates, stimulating further investment — reinforcing the virtuous cycle of innovation and expansion.
 
-#### ⚖️ B1 — *Economic Balancing Loop*
-As GDP grows too quickly, inflation and interest rates rise.  
-Higher interest rates slow down STEM investment, **preventing overheating and maintaining economic balance.**
+#### ⚖️ B1 — Economic Balancing Loop (Balancing)
+**Path:** GDP Growth ↑ → Inflation Rate ↑ → Interest Rate ↑ → STEM Investment ↓  
+*Explanation:* When GDP rises too rapidly, inflationary pressure leads central banks to raise interest rates.  
+This moderates excessive expansion, stabilizing the economy in equilibrium.
 
 ---
 
-Overall, this system map illustrates how **sustained STEM investment**, supported by a **stable education system and institutions**,  
-drives **innovation-led growth** while keeping the economy stable through balancing feedbacks.
+### 🌐 Overview
+
+This model highlights **three key mechanisms (R1, R2, B1)** that together explain both the reinforcing and balancing aspects of innovation-driven growth.  
+Education level, institutional stability, and population structure act as **non-significant but supportive background factors**, ensuring the sustainability of innovation cycles over time.
 """)
+
 
 # ======================
 # 💡 Map B: Conclusion & Reflection Section
@@ -457,19 +474,20 @@ st.markdown("""
 st.header("📑 Step 5: Executive Summary")
 
 summary_text = """
-Executive Summary: STEM Investment and Economic Indicators
+Executive Summary: STEM Investment and Economic Growth
 
 Purpose:
-- Analyze the relationship between STEM investment, GDP, interest rate, inflation, and stock indices across nations.
+- Examine whether STEM investment impacts GDP, interest rate, inflation, and stock indices across nations.
 
 Findings:
-- STEM investment positively impacts GDP and stock market confidence.  
-- It negatively correlates with inflation and interest volatility, enhancing stability.  
-- All outcomes are statistically significant (p < 0.05).
+- Independent T-tests showed no significant single-variable differences (p > 0.05).
+- MANOVA (Wilks’ Lambda = 0.2192, p = 0.0000) confirmed systemic, multivariate significance.
+- GDP regression revealed a strong positive relationship (R² = 0.96), indicating STEM investment predicts economic performance.
 
 Implications:
-- STEM budgets act as catalysts for both technological progress and macroeconomic stability.  
-- Sustained STEM investment builds a feedback loop of innovation, growth, and trust.
+- STEM funding influences economic structures as a system rather than through isolated metrics.
+- GDP serves as the most responsive indicator of innovation-driven growth.
+- Results support the alternative hypothesis that STEM investment fosters economic development.
 """.strip()
 
 import os
